@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input id="btn1" type="file" name="file"/>  
+  <input id="btn2" type="submit" value="提交"/>
+</body>
+<script>
+	
+	var btn1 = document.querySelector('#btn1')
+	var btn2 = document.querySelector('#btn2')
+	var file = null
+	btn1.addEventListener('change', function(e){
+		file = e.target.files[0]
+	})
+
+	btn2.onclick = function(){
+    var _fetchData = new FormData();
+    _fetchData.append('file', file);
+    xhr(_fetchData)
+	}
+
+	var xhr = function(formdata){
+		var xmlHttp = new XMLHttpRequest();  
+
+		xmlHttp.open("post","http://127.0.0.1:3030/api/backstage/upload", true);  
+		 
+		xmlHttp.send(formdata);
+
+		xmlHttp.onreadystatechange = function(){  
+		  if(xmlHttp.readyState==4){  
+		      if(xmlHttp.status==200){  
+		          var data = xmlHttp.responseText;  
+		          console.log(data);  
+		      }  
+		  }
+		}
+	}
+</script>
+</html>
